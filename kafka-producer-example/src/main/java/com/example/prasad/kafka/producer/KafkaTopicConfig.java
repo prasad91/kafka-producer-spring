@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ import org.springframework.kafka.core.ProducerFactory;
 @Configuration
 public class KafkaTopicConfig {
 
-	@Value(value = "${kafka.bootstrapAddress}")
+	@Value(value = "${spring.kafka.consumer.bootstrap-servers}")
 	private String bootstrapAddress;
 
 	@Bean
@@ -26,11 +25,6 @@ public class KafkaTopicConfig {
 		Map<String, Object> configs = new HashMap<>();
 		configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
 		return new KafkaAdmin(configs);
-	}
-
-	@Bean
-	public NewTopic topic1() {
-		return new NewTopic("baeldung", 1, (short) 1);
 	}
 
 	@Bean
