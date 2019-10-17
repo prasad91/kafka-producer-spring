@@ -1,6 +1,7 @@
 package com.example.prasad.kafka.producer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -12,19 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ApacheKafkaWebController {
 
+	@Value(value = "${spring.kafka.producer.topic-name}")
+	private String topicName;
+
+	@Value(value = "${spring.kafka.producer.topic-name2}")
+	private String topicName2;
+
 	@GetMapping(value = "/producer")
 	public String producer(@RequestParam("message") String message) {
 
-		sendMessage("topicName", message);
-		
+		sendMessage(topicName, message);
+
 		return "Message sent to the Kafka";
 	}
-	
+
 	@GetMapping(value = "/producer2")
 	public String producer2(@RequestParam("message") String message) {
 
-		sendMessage("topicName2", message);
-		
+		sendMessage(topicName2, message);
+
 		return "Message sent to the Kafka";
 	}
 
